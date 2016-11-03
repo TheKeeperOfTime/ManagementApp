@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/basic">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body layout:fragment="content">
+
+	<div class="row">
+	
+	<h1>Edit Product Info</h1>
+	
+		<form method="POST" th:object="${products}">
+		<input type="hidden" th:value="*{id}"/>
+		
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input type="text" class="form-control" name="name" placeholder="Name" th:field="*{name}"/>
+				<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+			</div>
+			<div class="form-group">
+				<label for="description">Description</label> 
+				<input type="text" class="form-control" name="description" placeholder="Description" th:field="*{description}"/>
+				<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
+			</div>
+			<div class="form-group">
+				<label for="ageRange">Age Range</label> 
+				<input type="text" class="form-control" name="ageRange" placeholder="Age Range" th:field="*{ageRange}"/>
+				<span th:if="${#fields.hasErrors('ageRange')}" th:errors="*{ageRange}">Age Error</span>
+			</div>
+			<div class="form-group">
+				<label for="price">Price</label> 
+				<input type="text" class="form-control" name="price" placeholder="Price" th:field="*{price}"/>
+				<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</span>
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+
+	</div>
+
+</body>
+</html>

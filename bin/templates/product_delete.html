@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/basic">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body layout:fragment="content">
+	<div class="row">
+
+		<h1>Product Delete</h1>
+		<div th:if="${products}">
+			<ul th:object ="${products}">
+				<li th:text="*{name}"></li>
+				<li th:text="*{description}"></li>
+				<li th:text="*{ageRange}"></li>
+				<li th:text="*{price}"></li>
+				<li th:text="*{id}"></li>
+				<li><a href="/" th:href="@{|/product/${products.id}/delete|}">Delete</a></li>
+			</ul>
+		</div>
+
+		<div th:unless="${products}">
+			<h3>No product Found</h3>
+		</div>
+		<a href="/product">Back</a>
+
+	</div>
+
+
+</body>
+</html>

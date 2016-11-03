@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/basic">
+<head>
+<title>Products</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body layout:fragment="content">
+<div class = "row">
+
+	<h1>Products For Sale</h1>
+	<h3>Something about my products?</h3>
+	<a href="/" th:href="@{|/product/create|}" class="btn btn-default">Add Product</a>
+
+	<table>
+
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Age Range</th>
+				<th>Price</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="product : ${products}">
+				<td th:text="${product.name}"></td>
+				<td th:text="${product.description}"></td>
+				<td th:text="${product.ageRange}"></td>
+				<td th:text="${product.price}"></td>
+				<td><a href="/" th:href="@{|/product/${product.id}|}">View</a></td>
+				<td><a href="/" th:href="@{|/product/${product.id}/delete|}">Delete</a></td>
+				
+			</tr>
+		</tbody>
+		
+		
+	</table>
+	</div>
+</body>
+</html>
