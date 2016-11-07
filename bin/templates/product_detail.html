@@ -14,7 +14,7 @@
 			<ul th:object ="${products}">
 				<li th:text="*{name}"></li>
 				<li th:text="*{description}"></li>
-				<li th:text="*{ageRange}"></li>
+				<li th:text="*{metal}"></li>
 				<li th:text="*{price}"></li>
 				<li th:text="*{id}"></li>
 				<li><a href="/" th:href="@{|/product/${products.id}/edit|}">Edit</a></li>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/basic">
+<head>
+<title>Customers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body layout:fragment="content">
+	<h1>Customers</h1>
+	<a class="btn btn-success" href="/" th:href="@{|/customer/create|}" role="button">Create New Customer</a>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Phone Number</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="c : ${customers}">
+				<td th:text="${c.firstName}"></td>
+				<td th:text="${c.lastName}"></td>
+				<td th:text="${c.email}"></td>
+				<td th:text="${c.phoneNumber}"></td>
+				<td><a class="btn btn-default" href="/" th:href="@{|/customer/${c.id}}" role="button">View</a></td>
+				<td><a class="btn btn-primary" href="/" th:href="@{|/customer/${c.id}/edit|}" role="button">Edit</a></td>
+				<td><a class="btn btn-danger" href="/" th:href="@{|/customer/${c.id}/delete|}" role="button">Delete</a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

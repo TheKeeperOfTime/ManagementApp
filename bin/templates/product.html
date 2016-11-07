@@ -11,27 +11,29 @@
 
 	<h1>Products For Sale</h1>
 	<h3>Something about my products?</h3>
-	<a href="/" th:href="@{|/product/create|}" class="btn btn-default">Add Product</a>
+	<a class="btn btn-success" href="/" th:href="@{|/product/create|}" role="button">Add Product</a>
 
-	<table>
+	<table class="table table-striped">
 
 		<thead>
 			<tr>
 				<th>Name</th>
 				<th>Description</th>
-				<th>Age Range</th>
+				<th>Metal</th>
 				<th>Price</th>
 				
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="product : ${products}">
-				<td th:text="${product.name}"></td>
-				<td th:text="${product.description}"></td>
-				<td th:text="${product.ageRange}"></td>
-				<td th:text="${product.price}"></td>
-				<td><a href="/" th:href="@{|/product/${product.id}|}">View</a></td>
-				<td><a href="/" th:href="@{|/product/${product.id}/delete|}">Delete</a></td>
+			<tr th:each="p : ${products}">
+				<td th:text="${p.name}"></td>
+				<td th:text="${p.description}"></td>
+				<td th:text="${p.metal}"></td>
+				<td th:text="${p.price}"></td>
+				<td><a class="btn btn-default" href="/" th:href="@{|/product/${p.id}|}" role="button">View</a></td>
+				<td><a class="btn btn-primary" href="/" th:href="@{|/product/${p.id}/edit|}" role="button">Edit</a></td>
+				<td><a class="btn btn-danger" href="/" th:href="@{|/product/${p.id}/delete|}" role="button">Delete</a></td>
+				
 				
 			</tr>
 		</tbody>

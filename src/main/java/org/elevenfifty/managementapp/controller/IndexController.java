@@ -1,13 +1,16 @@
 package org.elevenfifty.managementapp.controller;
 
+import java.sql.SQLException;
+
 import javax.validation.Valid;
 
+import org.elevenfifty.managementapp.beans.Customer;
 import org.elevenfifty.managementapp.beans.Products;
+import org.elevenfifty.managementapp.beans.Transaction;
+import org.elevenfifty.managementapp.repository.CustomerRepository;
 import org.elevenfifty.managementapp.repository.ProductRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.elevenfifty.managementapp.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,15 +18,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class IndexController {
-	private static final Logger log = LoggerFactory.getLogger(IndexController.class);
 
 	@Autowired
 	private ProductRepository productRepo;
+
+	@Autowired
+	private CustomerRepository customerRepo;
+	
+	@Autowired
+	private TransactionRepository transactionRepo;
 
 	@GetMapping(path = { "/home", " ", "/" })
 	public String home(Model model) {
@@ -108,19 +114,110 @@ public class IndexController {
 		}
 	}
 
-	@GetMapping("/order")
-	public String order(Model model) {
-		return "order";
+	@GetMapping("/customer")
+	public String getCustomers(Model model) {
+		model.addAttribute("customers", customerRepo.findAll());
+		return "customers";
 	}
+
+	@GetMapping("/customer/{id}")
+	public String customer(Model model, @PathVariable(name = "id") long id) {
+		model.addAttribute("id", id);
+		Customer c = customerRepo.findOne(id);
+		model.addAttribute("customer", c);
+		return "customer_detail";
+	}
+
+	@GetMapping("/customer/{id}/edit")
+	public String customerEdit(Model model, @PathVariable(name = "id") long id) {
+		model.addAttribute("id", id);
+		Customer c = customerRepo.findOne(id);
+		model.addAttribute("customer", c);
+		return "customer_edit";
+	}
+
+	@PostMapping("/customer/{id}/edit")
+	public String customerEditSave(@PathVariable(name = "id") long id, @ModelAttribute @Valid Customer customer,
+			BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("customer", customer);
+			return "customer_edit";
+		} else {
+			customerRepo.save(customer);
+			return "redirect:/customer/" + customer.getId();
+		}
+	}
+
+	@GetMapping("/customer/{id}/delete")
+	public String customerDelete(Model model, @PathVariable(name = "id") long id) {
+		model.addAttribute("id", id);
+		Customer c = customerRepo.findOne(id);
+		model.addAttribute("customer", c);
+		return "customer_delete";
+	}
+
+	@PostMapping("/customer/{id}/delete")
+	public String customerDeleteSave(@PathVariable(name = "id") long id, @ModelAttribute @Valid Customer customer,
+			BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("customer", customer);
+			return "customers";
+		} else {
+			customerRepo.delete(customer);
+			return "redirect:/customer";
+		}
+	}
+
+	@GetMapping("/customer/create")
+	public String customerCreate(Model model) {
+		model.addAttribute(new Customer());
+		return "customer_create";
+	}
+
+	@PostMapping("/customer/create")
+	public String customerCreate(@ModelAttribute @Valid Customer customer, BindingResult result, Model model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("customer", customer);
+			return "customer_create";
+		} else {
+			customerRepo.save(customer);
+			return "redirect:/customer";
+		}
+
+	}
+
+	@GetMapping("/transaction")
+	public String findAllTransactions(Model model) throws SQLException {
+		model.addAttribute("transactions", transactionRepo.findAll());
+		return "transaction";
+	}
+
+	@GetMapping("/transaction/{id}")
+	public String transactionDetail(Model model, @PathVariable(name = "id") Long id) {
+		model.addAttribute("id", id);
+		Transaction t = transactionRepo.findOne(id);
+		model.addAttribute("transaction", t);
+		model.addAttribute("customers", customerRepo.findAll());
+		model.addAttribute("product", productRepo.findAll());
+		return "transaction_detail";
+	}
+	
+	@GetMapping("/transaction/{id}/edit")
+	public String transactionEdit(Model model, @PathVariable(name = "id") Long id) {
+		model.addAttribute("id", id);
+		Transaction t = transactionRepo.findOne(id);
+		model.addAttribute("transaction", t);
+		model.addAttribute("customers", customerRepo.findAll());
+		model.addAttribute("product", productRepo.findAll());
+		return "transaction_edit";
+	}
+	
+	
 
 	@GetMapping("/employee")
 	public String employee(Model model) {
 		return "employee";
-	}
-
-	@GetMapping("/customer")
-	public String customer(Model model) {
-		return "customer";
 	}
 
 }

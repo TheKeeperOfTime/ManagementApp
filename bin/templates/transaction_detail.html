@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/basic">
+<head>
+<title>Transaction Details</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body layout:fragment="content">
+
+	<div class="row">
+		<div th:if="${transaction}">
+			<h1>Transaction Details</h1>
+			<ul th:object="${transaction}">
+				<li th:text="*{customer.lastName}"></li>
+				<li th:text="*{customer.email}"></li>
+				<li th:text="*{product.name}"></li>
+				<li th:text="*{product.price}"></li>
+			</ul>
+			<a href="/transaction">Back</a>
+		</div>
+		<div th:unless="${transaction}">
+			<h1>Transaction Not Found</h1>
+		</div>
+	</div>
+</body>
+</html>

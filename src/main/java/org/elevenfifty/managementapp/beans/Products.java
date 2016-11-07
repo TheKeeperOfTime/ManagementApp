@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -15,11 +14,9 @@ public class Products {
 	@Size(max = 45)
 	public String name;
 	
-	@Min(value = 0, message = "")
-	public int price;
+	public double price;
 	
-	
-	public int ageRange;
+	public String metal;
 	
 	public String description;
 	
@@ -30,24 +27,12 @@ public class Products {
 	public String getName() {
 		return name;
 	}
-	public int getPrice() {
-		return price;
-	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
 	
-	public int getAgeRange() {
-		return ageRange;
-	}
 	public String getDescription() {
 		return description;
-	}
-	public void setAgeRange(int ageRange) {
-		this.ageRange = ageRange;
 	}
 	public void setDescription(String description) {
 		this.description = description;
@@ -58,6 +43,20 @@ public class Products {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getMetal() {
+		return metal;
+	}
+	public void setMetal(String metal) {
+		this.metal = metal;
+	}
+	
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	
 	@Override
